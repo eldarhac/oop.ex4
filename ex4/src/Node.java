@@ -23,17 +23,25 @@ public class Node{
 
 
     //contructor
-    /**This is the defult constructor for al leaf (no sons)*/
+
+    /**This is
+     *
+     */
     public Node (){
     data = 0;
     isEmpty = true;
     }
 
+    /**
+     * This is a constructor for a certain data.
+     * @param fatherNode The Node we are adding to.
+     * @param value The value we want to insert.
+     */
     public Node (Node fatherNode,int value){
         father = fatherNode;
         data = value;
         Size = 0;
-
+        isEmpty = false;
     }
 
 
@@ -45,6 +53,7 @@ public class Node{
     protected void setRightSon(Node newSon){
         rightSon = newSon;
     }
+
 
     /**This returns the left Node
      * @return the left son of the node*/
