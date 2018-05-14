@@ -1,5 +1,7 @@
 /**This class implements the nodes that the tree is built of*/
 public class Node{
+    //constants
+    private final int NO_HIEGHT_OR_SIZE = 0;
 
     //data members
     /**This is the pointer to the right son of the node*/
@@ -20,12 +22,16 @@ public class Node{
     /**This represents the data of the node*/
     private int data;
 
+    /**This represents the height of the biggest subTree of the node*/
+    private int height = NO_HIEGHT_OR_SIZE;
+
+    /**This rperesents the size of the tree including th root */
+    private int size = NO_HIEGHT_OR_SIZE;
+
 
     //contructor
 
-    /**This is
-     *
-     */
+    /**This is a defult constructor*/
     public Node (){
     data = 0;
     isEmpty = true;
