@@ -4,7 +4,7 @@ public class Node{
 
     //data members
     /**This is the pointer to the right son of the node*/
-    private Node rightSon;
+    private Node rightDaughter;
 
     /**This is the pointer to the left son*/
     private Node leftSon;
@@ -32,8 +32,14 @@ public class Node{
 
     /**This sets the right son
      * @param newSon the new right son */
-    protected void setRightSon(Node newSon){
-        rightSon = newSon;
+    protected void setRightDaughter(Node newSon){
+        rightDaughter = newSon;
+    }
+
+    /**This returns the Right Node
+     * @return the right daughter of the node*/
+    public Node getRightDaughter() {
+        return rightDaughter;
     }
 
     /**This returns the left Node
