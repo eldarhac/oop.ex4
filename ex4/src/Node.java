@@ -1,6 +1,5 @@
+/**This class implements the nodes that the tree is built of*/
 public class Node{
-    /**This class implements the nodes that the tree is built of*/
-
 
     //data members
     /**This is the pointer to the right son of the node*/
@@ -35,8 +34,6 @@ public class Node{
         Size = 0;
 
     }
-
-
 
     //methods
 
