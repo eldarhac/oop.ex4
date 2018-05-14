@@ -1,43 +1,93 @@
 public class AvlTree extends SimpleTree{
+    //constants
+    /**This represents a situation in which we want to add*/
+    private static final String ADD = "add";
+
+    /**This represents a case in which we want to subtract*/
+    private static final String SUB = "sub";
+
+    //data members
     /**This is the root of the AVL tree*/
     private Node root;
 
+
+    //constructors
     /**This is the default constructor*/
     public AvlTree(){
     root = new Node();
     }
 
+    /**This adds the height for the whole sub tree
+     * @param node the root of the subtree
+     */
+    private void addHeightToSub (Node node){
+        node.setHieght(node.getHeight()+1);
+        Node rightGirl = node.getRightDaughter();
+        if (rightGirl!= null){
+            addHeightToSub(rightGirl);
+        }
+        Node leftSon = node.getLeftSon();
+        if (leftSon != null){
+            addHeightToSub(leftSon);
+        }
+    }
+
+
+    /**This adds the height for the whole sub tree
+     * @param node the root of the subtree
+     */
+    private void subHeightToSub (Node node){
+        node.setHieght( node.getHeight()-1);
+        Node rightGirl = node.getRightDaughter();
+        if (rightGirl!= null){
+            subHeightToSub(rightGirl);
+        }
+        Node leftSon = node.getLeftSon();
+        if (leftSon != null){
+            subHeightToSub(leftSon);
+        }
+    }
+
     /**This is responssible for the right rotation when needed*/
     private Node rightRotation(Node node) {
+        //change locations
         Node leftSon = node.getLeftSon();
         Node leftRightGrand = leftSon.getRightDaughter();
         leftSon.setRightDaughter(node);
         node.setLeftSon(leftRightGrand);
+
+        //update heights
+        int leftSonHeight = leftSon.getHeight();
+        leftSon.setHieght(node.getHeight());
+        node.setHieght(leftSonHeight);
+        addHeightToSub(leftSon.getLeftSon()); // adds 1 height to all the left sub of the original left son
+
+        //update size
+        leftSon.setSize(node.getSize());
+        node.setSize(node.getRightDaughter().getSize()+node.getLeftSon().getSize());
         return leftSon;
     }
 
-    private Node leftRotation(Node node){
+    private Node leftRotation(Node node) {
         Node rightGirl = node.getRightDaughter();
         Node rightLeftGrand = rightGirl.getLeftSon();
         rightGirl.setLeftSon(node);
         node.setLeftSon(rightLeftGrand);
-        return  rightGirl;
-
-    /**This is the root of the AVL tree*/
-    public AvlTree() {
+        return rightGirl;
     }
 
-    /**Goes upward from given leaf until recognizes interference.*/
-    private Node getInterference(Node leaf){
-        if (Math.abs(leaf.getBalance()) > 1){
-            return leaf;
+        /**Goes upward from given leaf until recognizes interference.*/
+        private Node getInterference (Node leaf){
+            if (Math.abs(leaf.getBalance()) > 1) {
+                return leaf;
+            }
+            return getInterference(leaf.getFather());
         }
-        return getInterference(leaf.getFather());
-    }
 
-    /**
-     *
-     */
+
+        /**
+         *
+         */
 //    private void fixInterference(Node leaf){
 //       Node badNode = getInterference(leaf);
 //       int balance = badNode.getBalance();

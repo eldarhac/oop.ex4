@@ -51,10 +51,6 @@ public class Node{
 
     //methods
 
-    public void sizeUp(){
-        Size++;
-    }
-
     /**This sets the right son
      * @param newSon the new right son */
     protected void setRightDaughter(Node newSon){
@@ -67,10 +63,6 @@ public class Node{
         return rightDaughter;
     }
 
-    /**Returns true if right daughter exists*/
-    public boolean hasRight(){
-        return getRightDaughter()!=null;
-    }
 
     /**This returns the left Node
      * @return the left son of the node*/
@@ -82,11 +74,6 @@ public class Node{
      * @param leftSon new left son*/
     public void setLeftSon(Node leftSon) {
         this.leftSon = leftSon;
-    }
-
-    /**Returns true if left son exists*/
-    public boolean hasLeft(){
-        return getLeftSon()!=null;
     }
 
     /**This returns the father
@@ -107,19 +94,6 @@ public class Node{
         return Size;
     }
 
-    /**Calculates balance factor of tree*/
-    public int getBalance(){
-        if(hasRight()&&hasLeft()){
-            return (getLeftSon().getSize() - getRightDaughter().getSize());
-        }
-        else if(hasRight()){
-            return -getRightDaughter().getSize();
-        }
-        else{
-            return getLeftSon().getSize();
-        }
-    }
-
     /**
      * This sets the size
      * @param state the new size
@@ -128,38 +102,11 @@ public class Node{
         isEmpty = state;
     }
 
-    /**Thisis a getter for data
-     * @return data
-     */
     public int getData() {
         return data;
     }
 
-    /**This is a setter for data
-     * @param data the new data
-     */
     public void setData(int data) {
         this.data = data;
-    }
-
-    /**This is a getter for height
-     * @return height
-     */
-    public int getHeight(){
-        return height;
-    }
-
-    /**This is a setter for height
-     * @param newHeight the new height
-     */
-    public void setHieght(int newHeight){
-        height = newHeight;
-    }
-
-    /**This is a setter for the size
-     * @param newSize the new size
-     */
-    public void setSize(int newSize){
-        size = newSize;
     }
 }
