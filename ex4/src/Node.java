@@ -45,6 +45,10 @@ public class Node{
 
     //methods
 
+    public void sizeUp(){
+        Size++;
+    }
+
     /**This sets the right son
      * @param newSon the new right son */
     protected void setRightDaughter(Node newSon){
@@ -57,6 +61,10 @@ public class Node{
         return rightDaughter;
     }
 
+    /**Returns true if right daughter exists*/
+    public boolean hasRight(){
+        return getRightDaughter()!=null;
+    }
 
     /**This returns the left Node
      * @return the left son of the node*/
@@ -68,6 +76,11 @@ public class Node{
      * @param leftSon new left son*/
     public void setLeftSon(Node leftSon) {
         this.leftSon = leftSon;
+    }
+
+    /**Returns true if left son exists*/
+    public boolean hasLeft(){
+        return getLeftSon()!=null;
     }
 
     /**This returns the father
@@ -86,6 +99,19 @@ public class Node{
      * @return the size*/
     public int getSize() {
         return Size;
+    }
+
+    /**Calculates balance factor of tree*/
+    public int getBalance(){
+        if(hasRight()&&hasLeft()){
+            return (getLeftSon().getSize() - getRightDaughter().getSize());
+        }
+        else if(hasRight()){
+            return -getRightDaughter().getSize();
+        }
+        else{
+            return getLeftSon().getSize();
+        }
     }
 
     /**
