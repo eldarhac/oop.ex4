@@ -1,6 +1,8 @@
 public class AvlTree extends SimpleTree{
+    /**This is the root of the AVL tree*/
+    private Node root;
     public AvlTree(){
-
+//    root = new Node ( null, );
     }
 
     @Override
@@ -9,9 +11,6 @@ public class AvlTree extends SimpleTree{
         return false;
     }
 
-//    private boolean add_helper(int value, Node root){
-//
-//    }
 
     @Override
     public boolean delete(int value) {
@@ -26,5 +25,9 @@ public class AvlTree extends SimpleTree{
     @Override
     public int size() {
         return 0;
+    }
+
+    public String toString (){
+        return "";
     }
 }
