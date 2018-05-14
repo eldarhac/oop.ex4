@@ -9,6 +9,9 @@ public class Node{
     /**This is the pointer to the left son*/
     private Node leftSon;
 
+    /**This is a boolean represent if the node is empty*/
+    private boolean isEmpty;
+
     /**This is the pointer to the father */
     private Node father;
 
@@ -21,12 +24,19 @@ public class Node{
 
     //contructor
     /**This is the defult constructor for al leaf (no sons)*/
+    public Node (){
+    data = 0;
+    isEmpty = true;
+    }
+
     public Node (Node fatherNode,int value){
         father = fatherNode;
         data = value;
         Size = 0;
 
     }
+
+
 
     //methods
 
@@ -74,10 +84,10 @@ public class Node{
 
     /**
      * This sets the size
-     * @param size the new size
+     * @param state the new size
      */
-    public void setSize(int size) {
-        Size = size;
+    public void isEmpty(boolean state) {
+        isEmpty = state;
     }
 
     public int getData() {
