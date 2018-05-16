@@ -1,8 +1,4 @@
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-
-public class AvlTree implements BinaryTree,Iterable<Integer>{
+public class AvlTree extends SimpleTree{
     //constants
     /**This represents a situation in which we want to add*/
     private static final String ADD = "add";
@@ -19,6 +15,22 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
     /**This is the default constructor*/
     public AvlTree(){
     root = new Node();
+    }
+
+    private static void heightUpIfNeeded(Node root, boolean isRight){
+        if (isRight){
+            if((root.getLeftSon()==null)||(root.getRightDaughter()!=null&&
+                    root.getLeftSon().getHeight()<=root.getRightDaughter().getHeight())){
+                root.heightUp();
+            }
+        }
+        else {
+            if((root.getRightDaughter()==null)||(root.getLeftSon()!=null&&
+                    root.getRightDaughter().getHeight()<=root.getLeftSon().getHeight())){
+                root.heightUp();
+            }
+        }
+
     }
 
     /**This adds the height for the whole sub tree
@@ -72,7 +84,9 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
         return leftSon;
     }
 
+    /**This is responssible for the left rotation when needed*/
     private Node leftRotation(Node node) {
+        //TODO: Father pointer and if (null)
         Node rightGirl = node.getRightDaughter();
         Node rightLeftGrand = rightGirl.getLeftSon();
         rightGirl.setLeftSon(node);
@@ -80,19 +94,35 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
         return rightGirl;
     }
 
-        /**Goes upward from given leaf until recognizes interference.*/
-        private Node getInterference (Node leaf){
-            if (Math.abs(leaf.getBalance()) > 1) {
-                return leaf;
-            }
-            return getInterference(leaf.getFather());
+    /**Goes upward from given leaf until recognizes interference.*/
+    private Node getInterference(Node leaf){
+        if (Math.abs(leaf.getBalance()) > 1){
+            return leaf;
         }
+        return getInterference(leaf.getFather());
+    }
 
-
-        /**
-         *
-         */
-
+    /**
+     * fixes the interference detected by using left and right rotations
+     */
+    private void fixInterference(Node leaf) {
+        Node badNode = getInterference(leaf);
+        Node rightGirl = badNode.getRightDaughter();
+        Node leftSon = badNode.getLeftSon();
+        int balance = badNode.getBalance();
+        if (badNode.getBalance() > 1) {
+            if(rightGirl.getBalance() < 0){
+                rightRotation(rightGirl);
+            }
+            leftRotation(badNode);
+        }
+        else{
+            if(leftSon.getBalance() > 0){
+                leftRotation(leftSon);
+            }
+            rightRotation(badNode);
+        }
+    }
 
     /**Helper function for add.
      * Runs recursively on nodes of the tree, until reached the right place
@@ -101,22 +131,32 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
      * */
     private Node addHelper(Node root, int val){
         if(val > root.getData()){
-//            root.heightUp();
-            root.sizeUp();
-            if (root.getRightDaughter()!=null){
-                return addHelper(root.getRightDaughter(), val);
+            if (root.getRightDaughter()==null) {
+                root.setRightDaughter(new Node(root, val));
+                root.sizeUp();
+                heightUpIfNeeded(root, true);
+                return root.getRightDaughter();
             }
-            root.setRightDaughter(new Node(root, val));
-            return root.getRightDaughter();
+            else {
+                if(addHelper(root.getRightDaughter(), val)!=null){
+                    root.sizeUp();
+                    heightUpIfNeeded(root, true);
+                }
+            }
         }
         else if(val < root.getData()){
-//            root.heightUp();
-            root.sizeUp();
-            if (root.getLeftSon()!=null){
-                return addHelper(root.getLeftSon(), val);
+            if (root.getLeftSon()==null) {
+                root.setLeftSon(new Node(root, val));
+                root.sizeUp();
+                heightUpIfNeeded(root, false);
+                return root.getLeftSon();
             }
-            root.setLeftSon(new Node(root, val));
-            return root.getLeftSon();
+            else {
+                if(addHelper(root.getLeftSon(), val)!=null){
+                    root.sizeUp();
+                    heightUpIfNeeded(root, false);
+                }
+            }
         }
         return null;
     }
@@ -128,7 +168,7 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
         boolean added = newNode!=null;
         if(added){
             if(Math.abs(root.getBalance()) > 1){
-//                fixInterference(newNode);
+                fixInterference(newNode);
             }
             return true;
         }
