@@ -88,24 +88,7 @@ public class AvlTree extends SimpleTree{
         /**
          *
          */
-//    private void fixInterference(Node leaf){
-//       Node badNode = getInterference(leaf);
-//       int balance = badNode.getBalance();
-//       if(badNode.getBalance() > 0){
-//           if(badNode.getLeftSon().getBalance() > 0) {
-//               rotateRight(badNode);
-//           }
-//           else {
-//               rightLeftRotation(badNode);
-//           }
-//       }
-//
-//        }
-//       else if(badNode.getBalance() < 0 && badNode.getRightDaughter().getBalance() < 0){
-//           rotateLeft(badNode);
-//       }
-//       else if(badNode.getBalance())
-//    }
+
 
     /**Helper function for add.
      * Runs recursively on nodes of the tree, until reached the right place
