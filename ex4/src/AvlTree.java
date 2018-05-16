@@ -1,4 +1,8 @@
-public class AvlTree extends SimpleTree{
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class AvlTree implements BinaryTree,Iterable<Integer>{
     //constants
     /**This represents a situation in which we want to add*/
     private static final String ADD = "add";
@@ -162,7 +166,6 @@ public class AvlTree extends SimpleTree{
     }
 
     /***/
-    @Override
     public boolean add(int newValue) {
         Node newNode = addHelper(root, newValue);
         boolean added = newNode!=null;
@@ -176,17 +179,14 @@ public class AvlTree extends SimpleTree{
     }
 
 
-    @Override
     public boolean delete(int value) {
         return false;
     }
 
-    @Override
     public boolean contains(int value) {
         return false;
     }
 
-    @Override
     public int size() {
         return 0;
     }
@@ -199,12 +199,10 @@ public class AvlTree extends SimpleTree{
         return root;
     }
 
-    @Override
     public Iterator<Integer> iterator() {
         return null;
     }
 
-    @Override
     public void forEach(Consumer<? super Integer> action) {
 
     }
