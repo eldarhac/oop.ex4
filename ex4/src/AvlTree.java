@@ -1,4 +1,8 @@
-public class AvlTree extends SimpleTree{
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class AvlTree implements BinaryTree,Iterable<Integer>{
     //constants
     /**This represents a situation in which we want to add*/
     private static final String ADD = "add";
@@ -149,5 +153,35 @@ public class AvlTree extends SimpleTree{
 
     public String toString (){
         return "";
+    }
+
+    public Node getRoot (){
+        return root;
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return null;
+    }
+
+    @Override
+    public void forEach(Consumer<? super Integer> action) {
+
+    }
+
+    @Override
+    public Spliterator<Integer> spliterator() {
+        return null;
+    }
+
+    public static void printTree (AvlTree myTree){
+        Node root = myTree.getRoot();
+     while ((root.getRightDaughter()!= null)||(root.getLeftSon()!=null)){
+         if (root.getRightDaughter()!=null)
+             System.out.println(root.getRightDaughter().getData());
+         if (root.getLeftSon() != null)
+             System.out.println(root.getLeftSon().getData());
+
+     }
     }
 }
