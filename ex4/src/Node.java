@@ -1,7 +1,7 @@
 /**This class implements the nodes that the tree is built of*/
 public class Node{
     //constants
-    private final int NO_HIEGHT_OR_SIZE = 0;
+    private final int NO_HEIGHT_OR_SIZE = 0;
 
     //data members
     /**This is the pointer to the right son of the node*/
@@ -19,14 +19,17 @@ public class Node{
     /**This is the size of the sub setOf the tree*/
     private int Size;
 
+//    /**This is the height of the sub setOf the tree*/
+//    private int height;
+
     /**This represents the data of the node*/
     private int data;
 
     /**This represents the height of the biggest subTree of the node*/
-    private int height = NO_HIEGHT_OR_SIZE;
+    private int height = NO_HEIGHT_OR_SIZE;
 
     /**This rperesents the size of the tree including th root */
-    private int size = NO_HIEGHT_OR_SIZE;
+    private int size = NO_HEIGHT_OR_SIZE;
 
 
     //contructor
@@ -45,11 +48,16 @@ public class Node{
     public Node (Node fatherNode,int value){
         father = fatherNode;
         data = value;
-        Size = 0;
+        Size = NO_HEIGHT_OR_SIZE;
+        height = NO_HEIGHT_OR_SIZE;
         isEmpty = false;
     }
 
     //methods
+
+    public void heightUp(){
+        height++;
+    }
 
     public void sizeUp(){
         Size++;
@@ -115,8 +123,12 @@ public class Node{
         else if(hasRight()){
             return -getRightDaughter().getSize();
         }
-        else{
+        else if(hasLeft()){
             return getLeftSon().getSize();
+
+        }
+        else{
+            return 0;
         }
     }
 
