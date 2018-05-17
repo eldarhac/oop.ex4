@@ -174,4 +174,8 @@ public class Node{
     public void setSize(int newSize){
         size = newSize;
     }
+
+    public boolean isRightSon(){
+        return (getFather().getData() < getData());
+    }
 }

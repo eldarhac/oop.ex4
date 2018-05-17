@@ -1,4 +1,4 @@
-public class AvlTree extends SimpleTree{
+public class AvlTree implements BinaryTree{
     /**This is the root of the AVL tree*/
     private Node root;
 
@@ -109,32 +109,45 @@ public class AvlTree extends SimpleTree{
      * for assertion, Than asserts value. Returns a pointer to Node where
      * checking continues from.
      * */
-    private Node addHelper(Node root, int val){
+    private Node helper(Node root, int val, boolean isAdd){
+        Node wanted;
         if(val > root.getData()){
             if (root.getRightDaughter()==null) {
-                root.setRightDaughter(new Node(root, val));
-                root.sizeUp();
-                heightUpIfNeeded(root, true);
+                if(isAdd){
+                    root.setRightDaughter(new Node(root, val));
+                    root.sizeUp();
+                    heightUpIfNeeded(root, true);
+                }
                 return root.getRightDaughter();
             }
             else {
-                if(addHelper(root.getRightDaughter(), val)!=null){
-                    root.sizeUp();
-                    heightUpIfNeeded(root, true);
+                wanted = helper(root.getRightDaughter(), val, isAdd);
+                if(wanted!=null){
+                    if(isAdd) {
+                        root.sizeUp();
+                        heightUpIfNeeded(root, true);
+                    }
+                    return(wanted);
                 }
             }
         }
         else if(val < root.getData()){
             if (root.getLeftSon()==null) {
-                root.setLeftSon(new Node(root, val));
-                root.sizeUp();
-                heightUpIfNeeded(root, false);
+                if(isAdd) {
+                    root.setLeftSon(new Node(root, val));
+                    root.sizeUp();
+                    heightUpIfNeeded(root, false);
+                }
                 return root.getLeftSon();
             }
             else {
-                if(addHelper(root.getLeftSon(), val)!=null){
-                    root.sizeUp();
-                    heightUpIfNeeded(root, false);
+                wanted = helper(root.getLeftSon(), val, isAdd);
+                if(wanted!=null){
+                    if(isAdd) {
+                        root.sizeUp();
+                        heightUpIfNeeded(root, false);
+                    }
+                    return wanted;
                 }
             }
         }
@@ -142,9 +155,46 @@ public class AvlTree extends SimpleTree{
     }
 
     /***/
+    private Node deleteHelper(Node root, int val){
+        Node wanted;
+        if(val > root.getData()){
+            if (root.getRightDaughter()==null) {
+                return null;
+            }
+            else {
+                wanted = deleteHelper(root.getRightDaughter(), val);
+                if(wanted!=null){
+//                        root.sizeUp();
+//                        heightUpIfNeeded(root, true);
+                        return(wanted);
+                }
+            }
+        }
+        else if(val < root.getData()){
+            if (root.getLeftSon()==null) {
+                return null;
+            }
+            else {
+                wanted = deleteHelper(root.getLeftSon(), val);
+                if(wanted!=null){
+//                        root.sizeUp();
+//                        heightUpIfNeeded(root, false);
+                        return wanted;
+                }
+            }
+        }
+        else{
+            //TODO reattaching remaining elements
+            wanted = root;
+            return wanted;
+        }
+        return null;
+    }
+
+    /***/
     @Override
     public boolean add(int newValue) {
-        Node newNode = addHelper(root, newValue);
+        Node newNode = helper(root, newValue, true);
         boolean added = newNode!=null;
         if(added){
             if(Math.abs(root.getBalance()) > 1){
@@ -163,12 +213,12 @@ public class AvlTree extends SimpleTree{
 
     @Override
     public boolean contains(int value) {
-        return false;
+        return helper(root,value,false) == null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return root.getSize();
     }
 
     public String toString (){
