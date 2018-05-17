@@ -212,6 +212,46 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
         return null;
     }
 
+    /*TODO:deletteeee*/
+    // ****************** Prints *************************
+
+    public void printTree(){
+        Node rightNode = root.getRightDaughter();
+        if (rightNode != null) {
+            printTree(true, "", rightNode);
+        }
+        printNodeValue(root);
+        Node leftNode = root.getLeftSon();
+        if (leftNode != null) {
+            printTree(false, "", leftNode);
+        }
+    }
+
+
+    // use string and not stringbuffer on purpose as we need to change the indent at each recursion
+    private void printTree(boolean isRight, String indent, Node node){
+        Node rightNode = node.getRightDaughter();
+        if (rightNode != null) {
+            printTree(true, indent + (isRight ? "        " : " |      "), rightNode);
+        }
+        System.out.print(indent);
+        if (isRight) System.out.print(" /");
+        else System.out.print(" \\");
+        System.out.print("----- ");
+        printNodeValue(node);
+        Node leftNode = node.getLeftSon();
+        if (leftNode != null) {
+            printTree(false, indent + (isRight ? " |      " : "        "), leftNode);
+        }
+    }
+
+    private void printNodeValue(Node node){
+        int nodeValue = node.getData();
+        System.out.print(nodeValue);
+        System.out.print("\n");
+    }
+
+
     public static void printTree (AvlTree myTree){
         Node root = myTree.getRoot();
      while ((root.getRightDaughter()!= null)||(root.getLeftSon()!=null)){
