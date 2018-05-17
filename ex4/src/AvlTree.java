@@ -1,7 +1,21 @@
-public class AvlTree implements BinaryTree{
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
+public class AvlTree implements BinaryTree,Iterable<Integer>{
+    //constants
+    /**This represents a situation in which we want to add*/
+    private static final String ADD = "add";
+
+    /**This represents a case in which we want to subtract*/
+    private static final String SUB = "sub";
+
+    //data members
     /**This is the root of the AVL tree*/
     private Node root;
 
+
+    //constructors
     /**This is the default constructor*/
     public AvlTree(){
     root = new Node();
@@ -61,6 +75,16 @@ public class AvlTree implements BinaryTree{
         Node leftRightGrand = leftSon.getRightDaughter();
         leftSon.setRightDaughter(node);
         node.setLeftSon(leftRightGrand);
+
+        //update heights
+        int leftSonHeight = leftSon.getHeight();
+        leftSon.setHieght(node.getHeight());
+        node.setHieght(leftSonHeight);
+        addHeightToSub(leftSon.getLeftSon()); // adds 1 height to all the left sub of the original left son
+
+        //update size
+        leftSon.setSize(node.getSize());
+        node.setSize(node.getRightDaughter().getSize()+node.getLeftSon().getSize());
         return leftSon;
     }
 
@@ -194,7 +218,7 @@ public class AvlTree implements BinaryTree{
     /***/
     @Override
     public boolean add(int newValue) {
-        Node newNode = helper(root, newValue, true);
+        Node newNode = addHelper(root, newValue);
         boolean added = newNode!=null;
         if(added){
             if(Math.abs(root.getBalance()) > 1){
@@ -213,15 +237,83 @@ public class AvlTree implements BinaryTree{
 
     @Override
     public boolean contains(int value) {
-        return helper(root,value,false) == null;
+        return false;
     }
 
     @Override
     public int size() {
-        return root.getSize();
+        return 0;
     }
 
     public String toString (){
         return "";
+    }
+
+    public Node getRoot (){
+        return root;
+    }
+
+    public Iterator<Integer> iterator() {
+        return null;
+    }
+
+    public void forEach(Consumer<? super Integer> action) {
+
+    }
+
+    @Override
+    public Spliterator<Integer> spliterator() {
+        return null;
+    }
+
+    /*TODO:deletteeee*/
+    // ****************** Prints *************************
+
+    public void printTree(){
+        Node rightNode = root.getRightDaughter();
+        if (rightNode != null) {
+            printTree(true, "", rightNode);
+        }
+        printNodeValue(root);
+        Node leftNode = root.getLeftSon();
+        if (leftNode != null) {
+            printTree(false, "", leftNode);
+        }
+    }
+
+
+    // use string and not stringbuffer on purpose as we need to change the indent at each recursion
+    private void printTree(boolean isRight, String indent, Node node){
+        Node rightNode = node.getRightDaughter();
+        if (rightNode != null) {
+            printTree(true, indent + (isRight ? "        " : " |      "), rightNode);
+        }
+        System.out.print(indent);
+        if (isRight) System.out.print(" /");
+        else System.out.print(" \\");
+        System.out.print("----- ");
+        printNodeValue(node);
+        Node leftNode = node.getLeftSon();
+        if (leftNode != null) {
+            printTree(false, indent + (isRight ? " |      " : "        "), leftNode);
+        }
+    }
+
+    private void printNodeValue(Node node){
+        int nodeValue = node.getData();
+        System.out.print(nodeValue);
+        System.out.print("\n");
+    }
+
+
+    public static void printTree (AvlTree myTree){
+        Node root = myTree.getRoot();
+     while ((root.getRightDaughter()!= null)||(root.getLeftSon()!=null)){
+         if (root.getRightDaughter()!=null)
+             System.out.println(root.getRightDaughter().getData());
+         if (root.getLeftSon() != null)
+             System.out.println(root.getLeftSon().getData());
+
+     }
     }
 }
