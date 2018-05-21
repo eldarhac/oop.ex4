@@ -218,7 +218,7 @@ public class AvlTree implements BinaryTree,Iterable<Integer>{
     /***/
     @Override
     public boolean add(int newValue) {
-        Node newNode = addHelper(root, newValue);
+        Node newNode = helper(root, newValue, true);
         boolean added = newNode!=null;
         if(added){
             if(Math.abs(root.getBalance()) > 1){
